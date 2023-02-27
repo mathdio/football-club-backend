@@ -1,5 +1,13 @@
 import * as express from 'express';
-import teamsRoutes from './routes/teamsRoutes';
+// import teamsRoutes from './routes/teamsRoutes';
+
+// import { Router } from 'express';
+import TeamsService from './services/TeamsService';
+import TeamsController from './controllers/TeamsController';
+
+// const teamsRoutes = Router();
+const teamService = new TeamsService();
+const teamsController = new TeamsController(teamService);
 
 class App {
   public app: express.Express;
@@ -11,7 +19,8 @@ class App {
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
-    this.initRoutes();
+    this.app.get('/teams', teamsController.findAll);
+    // this.initRoutes();
   }
 
   private config():void {
@@ -26,9 +35,9 @@ class App {
     this.app.use(accessControl);
   }
 
-  private initRoutes(): void {
-    this.app.use('/teams', teamsRoutes);
-  }
+  // private initRoutes(): void {
+  //   this.app.use('/teams', teamsRoutes);
+  // }
 
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => console.log(`Running on port ${PORT}`));

@@ -8,10 +8,10 @@ class TeamsController {
     this._service = service;
   }
 
-  async findAll(req: Request, res: Response) {
+  findAll = async (req: Request, res: Response) => {
     const result = await this._service.findAll();
     return res.status(200).json(result);
-  }
+  };
 }
 
 export default TeamsController;

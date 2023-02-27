@@ -13,6 +13,10 @@ Team.init({
     autoIncrement: true,
     allowNull: false,
   },
+  teamName: {
+    type: INTEGER,
+    allowNull: false,
+  },
 }, {
   sequelize: db,
   underscored: true,
