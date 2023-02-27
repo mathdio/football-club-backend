@@ -7,5 +7,6 @@ const teamService = new TeamsService();
 const teamsController = new TeamsController(teamService);
 
 teamsRoutes.get('/', teamsController.findAll);
+teamsRoutes.get('/:id', teamsController.findById);
 
 export default teamsRoutes;

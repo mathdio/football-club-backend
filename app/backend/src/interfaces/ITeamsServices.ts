@@ -3,6 +3,6 @@ import Team from '../database/models/TeamModel';
 
 export default interface ITeamsServices {
   findAll(): Promise<Team[]>
-  // findById(id: number): Promise<Team>
+  findById(id: number): Promise<Team | null>
   // create(team: ITeam): Promise<Team>
 }
