@@ -1,9 +1,8 @@
 import * as express from 'express';
+import 'express-async-errors';
 import teamsRoutes from './routes/teamsRoutes';
 import usersRoutes from './routes/usersRoutes';
 import ErrorMiddleware from './middlewares/errorMiddleware';
-
-require('express-async-errors');
 
 class App {
   public app: express.Express;
