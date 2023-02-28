@@ -1,16 +1,17 @@
 import { ModelStatic } from 'sequelize';
-import Team from '../database/models/TeamModel';
+import ITeam from '../interfaces/ITeam';
+import TeamModel from '../database/models/TeamModel';
 import ITeamsServices from '../interfaces/ITeamsServices';
 
 export default class TeamsService implements ITeamsServices {
-  protected model: ModelStatic<Team> = Team;
+  protected model: ModelStatic<TeamModel> = TeamModel;
 
-  async findAll(): Promise<Team[]> {
+  async findAll(): Promise<ITeam[]> {
     const teams = await this.model.findAll();
     return teams;
   }
 
-  async findById(id: number): Promise<Team | null> {
+  async findById(id: number): Promise<ITeam | null> {
     const team = await this.model.findByPk(id);
     return team;
   }
