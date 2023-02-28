@@ -44,11 +44,15 @@ class UsersController {
       throw error;
     }
     const payload = {
-      email: result.email,
-      result: result.id,
+      role: result.role,
     };
     const token = jwt.sign(payload, JWT_SECRET as string);
     return res.status(200).json({ token });
+  };
+
+  userRole = async (req: Request, res: Response) => {
+    const { role } = req.body;
+    return res.status(200).json(role);
   };
 }
 
