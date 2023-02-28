@@ -19,7 +19,9 @@ class UsersController {
 
     const result = await this._service.validateLogin(email, password);
     if (!result) {
-      return res.status(404).json({ message: 'E-mail invalid' });
+      const error = new Error('Invalid email or password');
+      error.name = 'UNAUTHORIZED';
+      throw error;
     }
     const payload = {
       email: result.email,

@@ -11,10 +11,18 @@ export default class UsersService implements IUsersService {
     const user = await this.model.findOne({
       where: { email },
     });
-
+    // if (!user) {
+    //   const error = new Error('Invalid email or password');
+    //   error.name = 'UNAUTHORIZED';
+    //   throw error;
+    // }
     if (user) {
       bcrypt.compare(password, user.password, (err, res) => {
-        if (!res) throw err;
+        if (!res) {
+          const error = new Error('Invalid email or password');
+          error.name = 'UNAUTHORIZED';
+          throw error;
+        }
       });
     }
     return user;
