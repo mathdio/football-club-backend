@@ -17,14 +17,6 @@ class UsersController {
       return res.status(400).json({ message: 'All fields must be filled' });
     }
 
-    // const salt = bcrypt.genSaltSync(10);
-    // const hashPassword = bcrypt.hashSync(password, salt);
-    // bcrypt.genSalt(10, (err, salt) => {
-    //   bcrypt.hash(password  , salt, (err, hash) => {
-    //     // Store hash in your password DB.
-    //   });
-    // });
-
     const result = await this._service.validateLogin(email, password);
     if (!result) {
       return res.status(404).json({ message: 'E-mail invalid' });
