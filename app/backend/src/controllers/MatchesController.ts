@@ -10,6 +10,12 @@ class MatchesController {
 
   findAll = async (req: Request, res: Response) => {
     const result = await this._service.findAll();
+
+    if (req.query.inProgress) {
+      const filteredResult = result
+        .filter((match) => match.inProgress.toString() === req.query.inProgress);
+      return res.status(200).json(filteredResult);
+    }
     return res.status(200).json(result);
   };
 }
