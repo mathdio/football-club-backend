@@ -32,6 +32,14 @@ class MatchesController {
     await this._service.updateMatch(id, homeTeamGoals, awayTeamGoals);
     return res.status(200).json({ message: `Match ${id} updated!` });
   };
+
+  createMatch = async (req: Request, res: Response) => {
+    const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
+
+    const result = await this._service
+      .createMatch(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
+    return res.status(201).json(result);
+  };
 }
 
 export default MatchesController;
