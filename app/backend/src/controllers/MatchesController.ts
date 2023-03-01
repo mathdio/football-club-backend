@@ -1,11 +1,31 @@
 import { Request, Response } from 'express';
+import TeamsService from '../services/TeamsService';
 import IMatchesService from '../interfaces/IMatchesService';
+
+const teamsService = new TeamsService();
 
 class MatchesController {
   private _service: IMatchesService;
 
   constructor(service: IMatchesService) {
     this._service = service;
+  }
+
+  public static async validateTeams(teamsIds: number[]) {
+    if (teamsIds[0] === teamsIds[1]) {
+      const error = new Error('It is not possible to create a match with two equal teams');
+      error.name = 'UNPROCESSABLE_CONTENT';
+      throw error;
+    }
+
+    const teamsInDatabase = await teamsService.findAll();
+    const idsInDatabase = teamsInDatabase.map(({ id }) => id);
+
+    if (!teamsIds.every((teamId) => idsInDatabase.includes(teamId))) {
+      const error = new Error('There is no team with such id!');
+      error.name = 'NOT_FOUND';
+      throw error;
+    }
   }
 
   findAll = async (req: Request, res: Response) => {
@@ -35,6 +55,7 @@ class MatchesController {
 
   createMatch = async (req: Request, res: Response) => {
     const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
+    await MatchesController.validateTeams([homeTeamId, awayTeamId]);
 
     const result = await this._service
       .createMatch(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
