@@ -119,4 +119,17 @@ describe('/login routes tests', function () {
     expect(response.status).to.be.eq(401);
     expect(response.body).to.deep.eq({ message: 'Token not found' });
   });
+
+  // it('tests if the route /login/role returns status code 401 with "Invalid token" error', async function () {
+  //   sinon.stub(jwt, 'verify').callsFake(() => {
+  //     return Promise.resolve({success: false});
+  //   });
+
+  //   const response = await chai.request(app)
+  //     .get('/login/role')
+  //     .set('authorization', 'token');
+    
+  //   expect(response.status).to.be.eq(401);
+  //   expect(response.body).to.deep.eq({ message: 'Token must be a valid token' });
+  // });
 });
