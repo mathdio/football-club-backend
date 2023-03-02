@@ -16,10 +16,10 @@ export default class TeamsService implements ITeamsServices {
     return team;
   }
 
-  async findOne(id: number): Promise<ITeam | null> {
-    const team = await this.model.findOne({
-      where: { id },
-    });
-    return team;
-  }
+  // async findOne(id: number): Promise<ITeam | null> {
+  //   const team = await this.model.findOne({
+  //     where: { id },
+  //   });
+  //   return team;
+  // }
 }

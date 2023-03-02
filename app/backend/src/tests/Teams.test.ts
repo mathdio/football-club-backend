@@ -12,7 +12,7 @@ import ITeam from '../interfaces/ITeam';
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('/teams routes service tests', function() {
+describe('/teams routes tests', function() {
   afterEach(function() {
     sinon.restore();
   });
