@@ -25,6 +25,26 @@ export default class MatchesService implements IMatchesService {
     return matches;
   }
 
+  async findLeaderboard(): Promise<IMatch[]> {
+    const matches = await this.model.findAll({
+      where: { inProgress: false },
+      raw: true,
+      include: [
+        {
+          model: TeamModel,
+          as: 'homeTeam',
+          attributes: { exclude: ['id'] },
+        },
+        {
+          model: TeamModel,
+          as: 'awayTeam',
+          attributes: { exclude: ['id'] },
+        },
+      ],
+    });
+    return matches;
+  }
+
   async finishMatch(id: number): Promise<void> {
     await this.model.update(
       { inProgress: false },
