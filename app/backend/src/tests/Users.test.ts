@@ -6,10 +6,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import UsersService from '../services/UsersService';
 import authMiddleware from '../middlewares/auth';
-import UserModel from '../database/models/UserModel';
 import jwt = require('jsonwebtoken');
-
-import UsersController from '../controllers/UsersController';
 
 import bcrypt = require('bcryptjs');
 const usersService = new UsersService();
