@@ -11,8 +11,8 @@ import jwt = require('jsonwebtoken');
 import bcrypt = require('bcryptjs');
 import IMatch from '../interfaces/IMatch';
 import { Model } from 'sequelize';
-// const usersService = new UsersService();
-// const auth = new authMiddleware();
+
+import { singleMatchArray, matchesArray } from './Matches.mock';
 
 chai.use(chaiHttp);
 
@@ -24,25 +24,20 @@ describe('/matches routes tests', function () {
   });
 
   it('tests if it returns a array of matches successfully', async function () {
-    const outputMock = [{
-        "id": 1,
-        "homeTeamId": 16,
-        "homeTeamGoals": 1,
-        "awayTeamId": 8,
-        "awayTeamGoals": 1,
-        "inProgress": false,
-        "homeTeam": {
-          "teamName": "São Paulo"
-        },
-        "awayTeam": {
-          "teamName": "Grêmio"
-        }
-      }]
-    sinon.stub(MatchModel, 'findAll').resolves(outputMock as unknown as Model[]);
+    sinon.stub(MatchModel, 'findAll').resolves(singleMatchArray as unknown as Model[]);
 
     const response = await chai.request(app).get('/matches');
     expect(response.status).to.be.eq(200);
-    expect(response.body).to.deep.eq(outputMock);
+    expect(response.body).to.deep.eq(singleMatchArray);
+  });
+
+  it('tests if it returns a array of matches filtered by query "inProgress"', async function () {
+    sinon.stub(MatchModel, 'findAll').resolves(matchesArray as unknown as Model[]);
+
+    const response = await chai.request(app)
+      .get('/matches?inProgress=false');
+    expect(response.status).to.be.eq(200);
+    expect(response.body).to.deep.eq(singleMatchArray);
   });
 
   it('tests if it returns a created match successfully', async function () {
