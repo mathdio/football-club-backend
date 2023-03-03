@@ -31,126 +31,143 @@ class TeamsController {
     if (result) return res.status(200).json(result);
   };
 
-  public static victoriesTotalPoints(id: number, matches: IMatch[]): number[] {
-    const filtered = matches
-      .filter(({ homeTeamId, awayTeamId }) => homeTeamId === id || awayTeamId === id);
-    console.log(filtered);
-    let totalPoints = 0;
-    let totalDraws = 0;
-    let totalVictories = 0;
-    filtered.forEach(({ victory }) => {
-      if (victory === id) {
-        totalPoints += 3;
-        totalVictories += 1;
-      }
-      if (victory === 0) {
-        totalDraws += 1;
-        totalPoints += 1;
-      }
-    });
-    return [totalPoints, totalDraws, totalVictories];
+  public static totalVictories(id: number, matches: IMatch[]): number {
+    const totalVictories = matches
+      .reduce((acc, { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals }) => {
+        if (homeTeamId === id && homeTeamGoals > awayTeamGoals) {
+          return acc + 1;
+        }
+        if (awayTeamId === id && awayTeamGoals > homeTeamGoals) {
+          return acc + 1;
+        }
+        return acc;
+      }, 0);
+    return totalVictories;
   }
 
-  public static totalGamesEffic(id: number, matches: IMatch[], totalPoints: number):
-  [number, string] {
-    let totalGames = 0;
-    matches.forEach(({ homeTeamId, awayTeamId }) => {
+  public static totalDraws(id: number, matches: IMatch[]): number {
+    const totalDraws = matches
+      .reduce((acc, { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals }) => {
+        if (homeTeamId === id && homeTeamGoals === awayTeamGoals) {
+          return acc + 1;
+        }
+        if (awayTeamId === id && awayTeamGoals === homeTeamGoals) {
+          return acc + 1;
+        }
+        return acc;
+      }, 0);
+    return totalDraws;
+  }
+
+  public static totalPoints(id: number, matches: IMatch[]): number {
+    const victories = TeamsController.totalVictories(id, matches);
+    const draws = TeamsController.totalDraws(id, matches);
+
+    const totalPoints = victories * 3 + draws;
+    return totalPoints;
+  }
+
+  public static totalGames(id: number, matches: IMatch[]): number {
+    const totalGames = matches.reduce((acc, { homeTeamId, awayTeamId }) => {
       if (homeTeamId === id || awayTeamId === id) {
-        totalGames += 1;
+        return acc + 1;
       }
-    });
-    const efficiency = ((totalPoints / (totalGames * 3)) * 100);
-    const fixedEff = efficiency.toFixed(2);
-    return [totalGames, fixedEff];
+      return acc;
+    }, 0);
+    return totalGames;
   }
 
-  public static totalLossesCalculation(id: number, matches: IMatch[]): number {
-    const filteredAsHome = matches.filter(({ homeTeamId }) => homeTeamId === id);
-    const filteredAsAway = matches.filter(({ awayTeamId }) => awayTeamId === id);
-    let totalLosses = 0;
-
-    filteredAsHome.forEach(({ victory, awayTeamId }) => {
-      if (victory === awayTeamId) {
-        totalLosses += 1;
-      }
-    });
-    filteredAsAway.forEach(({ victory, homeTeamId }) => {
-      if (victory === homeTeamId) {
-        totalLosses += 1;
-      }
-    });
+  public static totalLosses(id: number, matches: IMatch[]): number {
+    const totalLosses = matches
+      .reduce((acc, { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals }) => {
+        if (homeTeamId === id && homeTeamGoals < awayTeamGoals) {
+          return acc + 1;
+        }
+        if (awayTeamId === id && awayTeamGoals < homeTeamGoals) {
+          return acc + 1;
+        }
+        return acc;
+      }, 0);
     return totalLosses;
   }
 
-  public static goalsFavorCalculation(id: number, matches: IMatch[]): number {
-    let goalsFavor = 0;
-    matches.forEach(({ homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals }) => {
-      if (homeTeamId === id) {
-        goalsFavor += homeTeamGoals;
-      }
-      if (awayTeamId === id) {
-        goalsFavor += awayTeamGoals;
-      }
-    });
+  public static goalsFavor(id: number, matches: IMatch[]): number {
+    const goalsFavor = matches
+      .reduce((acc, { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals }) => {
+        if (homeTeamId === id) return acc + homeTeamGoals;
+        if (awayTeamId === id) return acc + awayTeamGoals;
+        return acc;
+      }, 0);
     return goalsFavor;
   }
 
-  public static goalsOwnCalculation(id: number, matches: IMatch[]): number {
-    let goalsOwn = 0;
-    matches.forEach(({ homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals }) => {
-      if (homeTeamId === id) {
-        goalsOwn += awayTeamGoals;
-      }
-      if (awayTeamId === id) {
-        goalsOwn += homeTeamGoals;
-      }
-    });
+  public static goalsOwn(id: number, matches: IMatch[]): number {
+    const goalsOwn = matches
+      .reduce((acc, { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals }) => {
+        if (homeTeamId === id) return acc + awayTeamGoals;
+        if (awayTeamId === id) return acc + homeTeamGoals;
+        return acc;
+      }, 0);
     return goalsOwn;
   }
 
-  public static calculatePoints(teams: ITeam[], matches: IMatch[]): ILeaderboardResult[] {
-    const result = teams.map(({ id, teamName }) => {
-      const totalPoints = TeamsController.victoriesTotalPoints(id as number, matches);
-      const totalGames = TeamsController.totalGamesEffic(id as number, matches, totalPoints[0]);
-      const goalsFavor = TeamsController.goalsFavorCalculation(id as number, matches);
-      const goalsOwn = TeamsController.goalsOwnCalculation(id as number, matches);
+  public static goalsBalance(id: number, matches: IMatch[]): number {
+    const GF = this.goalsFavor(id, matches);
+    const GO = this.goalsOwn(id, matches);
 
-      return { name: teamName,
-        totalPoints: totalPoints[0],
-        totalGames: totalGames[0],
-        totalVictories: totalPoints[2],
-        totalDraws: totalPoints[1],
-        totalLosses: TeamsController.totalLossesCalculation(id as number, matches),
-        goalsFavor,
-        goalsOwn,
-        goalsBalance: goalsFavor - goalsOwn,
-        efficiency: totalGames[1],
-      };
-    });
+    const goalsBalance = GF - GO;
+    return goalsBalance;
+  }
+
+  public static efficiency(id: number, matches: IMatch[]): string {
+    const TP = this.totalPoints(id, matches);
+    const TG = this.totalGames(id, matches);
+
+    const efficiency = ((TP / (TG * 3)) * 100).toFixed(2);
+    return efficiency;
+  }
+
+  public static calculatePoints(teams: ITeam[], matches: IMatch[]): ILeaderboardResult[] {
+    const result = teams.map(({ id, teamName }) =>
+      ({ name: teamName,
+        totalPoints: this.totalPoints(id as number, matches),
+        totalGames: this.totalGames(id as number, matches),
+        totalVictories: this.totalVictories(id as number, matches),
+        totalDraws: this.totalDraws(id as number, matches),
+        totalLosses: this.totalLosses(id as number, matches),
+        goalsFavor: this.goalsFavor(id as number, matches),
+        goalsOwn: this.goalsOwn(id as number, matches),
+        goalsBalance: this.goalsBalance(id as number, matches),
+        efficiency: this.efficiency(id as number, matches),
+      }));
     return result;
   }
 
-  public static matchesWithVictories(matches: IMatch[]): IMatch[] {
-    const withVictories = matches.map((match) => {
-      if (match.homeTeamGoals > match.awayTeamGoals) {
-        return { ...match, victory: match.homeTeamId };
-      }
-      if (match.awayTeamGoals > match.homeTeamGoals) {
-        return { ...match, victory: match.awayTeamId };
-      }
-      return { ...match, victory: 0 };
+  public static sortResult(result: ILeaderboardResult[]) {
+    const sorted = result.sort((a, b) => {
+      if (a.totalPoints > b.totalPoints) return -1;
+      if (a.totalPoints < b.totalPoints) return 1;
+      if (a.totalPoints > b.totalPoints) return -1;
+      if (a.totalPoints < b.totalPoints) return 1;
+      if (a.goalsBalance > b.goalsBalance) return -1;
+      if (a.goalsBalance < b.goalsBalance) return 1;
+      if (a.goalsFavor > b.goalsFavor) return -1;
+      if (a.goalsFavor < b.goalsFavor) return 1;
+      if (a.goalsOwn > b.goalsOwn) return -1;
+      if (a.goalsOwn < b.goalsOwn) return 1;
+      return 0;
     });
-    return withVictories;
+    return sorted;
   }
 
   leaderboardHome = async (req: Request, res: Response) => {
     const teams = await this._service.findAll();
     const matches = await matchesService.findLeaderboard();
-    const matchesWithVictories = TeamsController.matchesWithVictories(matches);
 
-    const result = TeamsController.calculatePoints(teams, matchesWithVictories);
-    // console.log(result);
-    return res.status(200).json(result);
+    const result = TeamsController.calculatePoints(teams, matches);
+    const sorted = TeamsController.sortResult(result);
+    console.log(sorted);
+    return res.status(200).json(sorted);
   };
 }
 
