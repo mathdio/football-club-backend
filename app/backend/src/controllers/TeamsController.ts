@@ -130,7 +130,7 @@ class TeamsController {
     return efficiency;
   }
 
-  public static calculatePoints(teams: ITeam[], matches: IMatch[]): ILeaderboardResult[] {
+  public static calculateHome(teams: ITeam[], matches: IMatch[]): ILeaderboardResult[] {
     const result = teams.map(({ id, teamName }) => {
       const homeMatches = matches.filter(({ homeTeamId }) => homeTeamId === id);
       return { name: teamName,
@@ -145,6 +145,39 @@ class TeamsController {
         efficiency: this.efficiency(id as number, homeMatches),
       };
     });
+    return result;
+  }
+
+  public static calculateAway(teams: ITeam[], matches: IMatch[]): ILeaderboardResult[] {
+    const result = teams.map(({ id, teamName }) => {
+      const awayMatches = matches.filter(({ awayTeamId }) => awayTeamId === id);
+      return { name: teamName,
+        totalPoints: this.totalPoints(id as number, awayMatches),
+        totalGames: this.totalGames(id as number, awayMatches),
+        totalVictories: this.totalVictories(id as number, awayMatches),
+        totalDraws: this.totalDraws(id as number, awayMatches),
+        totalLosses: this.totalLosses(id as number, awayMatches),
+        goalsFavor: this.goalsFavor(id as number, awayMatches),
+        goalsOwn: this.goalsOwn(id as number, awayMatches),
+        goalsBalance: this.goalsBalance(id as number, awayMatches),
+        efficiency: this.efficiency(id as number, awayMatches),
+      };
+    });
+    return result;
+  }
+
+  public static calculatePoints(teams: ITeam[], matches: IMatch[]): ILeaderboardResult[] {
+    const result = teams.map(({ id, teamName }) => ({ name: teamName,
+      totalPoints: this.totalPoints(id as number, matches),
+      totalGames: this.totalGames(id as number, matches),
+      totalVictories: this.totalVictories(id as number, matches),
+      totalDraws: this.totalDraws(id as number, matches),
+      totalLosses: this.totalLosses(id as number, matches),
+      goalsFavor: this.goalsFavor(id as number, matches),
+      goalsOwn: this.goalsOwn(id as number, matches),
+      goalsBalance: this.goalsBalance(id as number, matches),
+      efficiency: this.efficiency(id as number, matches),
+    }));
     return result;
   }
 
@@ -166,6 +199,26 @@ class TeamsController {
   }
 
   leaderboardHome = async (req: Request, res: Response) => {
+    const teams = await this._teamsService.findAll();
+    const matches = await this._matchesService.findLeaderboard();
+
+    const result = TeamsController.calculateHome(teams, matches);
+    const sorted = TeamsController.sortResult(result);
+    console.log(sorted);
+    return res.status(200).json(sorted);
+  };
+
+  leaderboardAway = async (req: Request, res: Response) => {
+    const teams = await this._teamsService.findAll();
+    const matches = await this._matchesService.findLeaderboard();
+
+    const result = TeamsController.calculateAway(teams, matches);
+    const sorted = TeamsController.sortResult(result);
+    console.log(sorted);
+    return res.status(200).json(sorted);
+  };
+
+  leaderboard = async (req: Request, res: Response) => {
     const teams = await this._teamsService.findAll();
     const matches = await this._matchesService.findLeaderboard();
 

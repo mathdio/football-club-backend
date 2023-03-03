@@ -8,6 +8,8 @@ const teamService = new TeamsService();
 const matchesService = new MatchesService();
 const teamsController = new TeamsController(teamService, matchesService);
 
+leaderboardRoutes.get('/', teamsController.leaderboard);
 leaderboardRoutes.get('/home', teamsController.leaderboardHome);
+leaderboardRoutes.get('/away', teamsController.leaderboardAway);
 
 export default leaderboardRoutes;
