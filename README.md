@@ -15,7 +15,7 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 # ⚽ A soccer teams ranking REST API developed as a [Trybe](https://www.betrybe.com/) Project
 
 ## 💻 About this project
-In this application, through the front-end the user can loggin, add matches, edit matches in progress' goals, finish matches, check the leaderboard and filter it. The front-end of this application was provided by [Trybe](https://www.betrybe.com/), therefore all files in ./frontend repository are Trybe's intellectual property.
+In this application, through the front-end the user can loggin, add matches, edit matches in progress' goals, finish matches, check the leaderboard and filter it. The front-end of this application was provided by [Trybe](https://www.betrybe.com/), therefore all files in `./app/frontend` repository are Trybe's intellectual property, as well some files in `./app/backend` repository (as Sequelize configuration and seeders) provided in order to accelerate the development of the application. 
 
 ## 🛠️ Back-End built with
 <a href="https://www.docker.com" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" /></a>
