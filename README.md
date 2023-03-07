@@ -26,11 +26,21 @@ In this application, through the front-end the user can loggin, add matches, edi
 <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
 
 ## 🏁 Getting started
-### Installing Docker and Docker Compose
+### 🐳 Installing Docker and Docker Compose
 As the project is containerized, to run the application you will need to install both softwares. The Docker Compose version supported by the project is 1.29 or higher.
 
-#### ⬇️ Installing the dependencies
+### ⬇️ Installing the dependencies
 Inside root directory run:
 ```
 npm run install:apps
 ``` 
+### 🆙 Creating and starting the application's containers
+Inside root directory run:
+```
+npm run compose:up
+``` 
+You can also stop and remove the containers by running the following command:
+```
+npm run compose:down
+``` 
+
