@@ -11,3 +11,10 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 - quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
 - quais arquivos/pastas foram desenvolvidos pela Trybe.
 -->
+
+# ⚽ A soccer teams ranking REST API developed as a [Trybe](https://www.betrybe.com/) Project
+
+## 💻 About this project
+In this application, through the front-end the user can loggin, add matches, edit matches in progress' goals, finish matches, check the leaderboard and filter it. The front-end of this application was provided by [Trybe](https://www.betrybe.com/), therefore all files in ./frontend repository are Trybe's intellectual property.
+
+## 🛠️ Back-End built with
