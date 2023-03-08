@@ -1,17 +1,3 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
-
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
-
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
-
 # ⚽ A soccer teams ranking REST API developed as a [Trybe](https://www.betrybe.com/) Project
 
 ## 💻 About this project
@@ -34,7 +20,7 @@ Inside root directory run:
 ```
 npm run install:apps
 ``` 
-### 🆙 Creating and starting the application's containers
+### 📦 Creating and starting the application's containers
 Inside root directory run:
 ```
 npm run compose:up
@@ -43,4 +29,18 @@ You can also stop and remove the containers by running the following command:
 ```
 npm run compose:down
 ``` 
+
+### 🖥️ Setting enviroment variables
+The following environment variables must be settled in order to run the project. You can do this creating a `.env` file and declaring the variables:
+```
+JWT_SECRET=
+APP_PORT=
+DB_USER=
+DB_PASS=
+DB_HOST=
+DB_PORT=
+```
+
+### 🏃‍♀️ Running the application
+Creating the containers must start them automatically. Though, if the containers stopped, you can restart them or start the front-end and back-end by running the command `npm run start` in repository's terminals.
 
