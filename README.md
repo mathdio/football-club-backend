@@ -1,4 +1,5 @@
-# ⚽ A soccer teams ranking REST API developed as a [Trybe](https://www.betrybe.com/) Project
+# ⚽ Football Club Back-end 
+A soccer teams ranking REST API developed as a [Trybe](https://www.betrybe.com/) Project
 
 ## 💻 About this project
 In this application, through the front-end the user can loggin, add matches, edit matches in progress' goals, finish matches, check the leaderboard and filter it. The front-end of this application was provided by [Trybe](https://www.betrybe.com/), therefore all files in `./app/frontend` repository are Trybe's intellectual property, as well some files in `./app/backend` repository (as Sequelize configuration and seeders) provided in order to accelerate the development of the application. 
