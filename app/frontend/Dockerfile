@@ -5,7 +5,8 @@ WORKDIR /app-frontend
 # Copiar os package.json e package-lock.json para o container
 COPY package*.json ./
 # Instalar as dependências Node
-RUN npm install
+RUN npm config set registry http://registry.npmjs.org/ \
+    npm install
 # Copiar o restante dos arquivos da aplicação para o container
 COPY . .
 # Sinalize que aplicação expõe a porta 3000
