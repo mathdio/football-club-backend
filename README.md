@@ -1,4 +1,4 @@
-# ⚽ Football Club Back-end 
+# ⚽ Football Club Back-End 
 A soccer teams ranking REST API developed as a [Trybe](https://www.betrybe.com/) Project
 
 ## 💻 About this project
