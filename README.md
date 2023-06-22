@@ -17,12 +17,12 @@ In this application, through the front-end the user can loggin, add matches, edi
 As the project is containerized, to run the application you will need to install both softwares. The Docker Compose version supported by the project is 1.29 or higher. You can see [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-pt) or in the [docs](https://docs.docker.com/compose/install/) how to install it.
 
 ### ⬇️ Installing the dependencies
-Inside root directory run:
+In project's root, run:
 ```
 npm run install:apps
 ``` 
 ### 📦 Creating and starting the application's containers
-Inside root directory run:
+In project's root, run:
 ```
 npm run compose:up
 ``` 
