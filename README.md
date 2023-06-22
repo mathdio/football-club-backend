@@ -14,7 +14,7 @@ In this application, through the front-end the user can loggin, add matches, edi
 
 ## 🏁 Getting started
 ### 🐳 Installing Docker and Docker Compose
-As the project is containerized, to run the application you will need to install both softwares. The Docker Compose version supported by the project is 1.29 or higher.
+As the project is containerized, to run the application you will need to install both softwares. The Docker Compose version supported by the project is 1.29 or higher. You can see [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-pt) or in the [docs](https://docs.docker.com/compose/install/) how to install it.
 
 ### ⬇️ Installing the dependencies
 Inside root directory run:
