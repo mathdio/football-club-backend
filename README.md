@@ -12,6 +12,13 @@ This application is a RESTful CRUD API to manage football matches scoreboards, b
 <a href="https://sequelize.org" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white" alt="Sequelize" /></a>
 <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
 
+## 🎯 Used skills
+- apps, network, volume and compose Dockerizing 
+- MySQL data modeling using Sequelize
+- Tables creation and association using Sequelize models
+- REST API building
+- CRUD building with TypeScript, using ORM.
+
 ## 🏁 Getting started
 ### 🐳 Installing Docker and Docker Compose
 As the project is containerized, to run the application you will need to install both softwares. The Docker Compose version supported by the project is 1.29 or higher. You can see [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-pt) or in the [docs](https://docs.docker.com/compose/install/) how to install it.
